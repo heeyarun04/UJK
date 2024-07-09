@@ -1,0 +1,14 @@
+<h2>Checkout</h2>
+<form action="/orders/create" method="POST">
+  <input type="hidden" name="user_id" value="1">
+  <label for="total_cost">Total Cost:</label>
+  <input type="text" name="total_cost" id="total_cost" value="100" readonly>
+  <label for="address">Address:</label>
+  <input type="text" name="address" id="address" required>
+  <label for="payment_method">Payment Method:</label>
+  <select name="payment_method" id="payment_method">
+    <option value="credit_card">Credit Card</option>
+    <option value="paypal">PayPal</option>
+  </select>
+  <button type="submit">Place Order</button>
+</form>
