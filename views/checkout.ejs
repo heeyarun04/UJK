@@ -1,14 +1,20 @@
-<h2>Checkout</h2>
-<form action="/orders/create" method="POST">
-  <input type="hidden" name="user_id" value="1">
-  <label for="total_cost">Total Cost:</label>
-  <input type="text" name="total_cost" id="total_cost" value="100" readonly>
-  <label for="address">Address:</label>
-  <input type="text" name="address" id="address" required>
-  <label for="payment_method">Payment Method:</label>
-  <select name="payment_method" id="payment_method">
-    <option value="credit_card">Credit Card</option>
-    <option value="paypal">PayPal</option>
-  </select>
-  <button type="submit">Place Order</button>
-</form>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Order Summary</h5>
+      <p><strong>Order ID:</strong> <%= order.id_order %></p>
+      <p><strong>User ID:</strong> <%= order.id_user %></p>
+      <p><strong>Shipping Address:</strong> <%= order.alamat_pengiriman %></p>
+      <p><strong>Payment Method:</strong> <%= order.metode_pembayaran %></p>
+      <p><strong>Total Cost:</strong> <%= order.total_biaya %></p>
+      <h6>Order Items:</h6>
+      <ul>
+        <% order.items.forEach(item => { %>
+          <li>
+            <strong>Product:</strong> <%= item.nama_produk %> - <strong>Quantity:</strong> <%= item.kuantitas %> - <strong>Price:</strong> <%= item.harga %>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</div>

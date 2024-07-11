@@ -1,6 +1,21 @@
-<h2>Products</h2>
-<ul>
+<h2 class="my-4">Products</h2>
+<a href="/cart" class="btn btn-primary mb-3">View Cart</a>
+<div class="row">
   <% products.forEach(product => { %>
-    <li><%= product.nama_produk %> - <%= product.harga %></li>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title"><%= product.nama_produk %></h5>
+          <p class="card-text">Rp. <%= product.harga %></p>
+          <form action="/cart/add" method="POST" class="mt-auto">
+            <input type="hidden" name="product_id" value="<%= product.product_id %>">
+            <div class="form-group">
+              <input type="number" name="kuantitas" value="1" min="1" class="form-control custom-input-size">
+            </div>
+            <button type="submit" class="btn btn-success w-100">Add to Cart</button>
+          </form>
+        </div>
+      </div>
+    </div>
   <% }) %>
-</ul>
+</div>

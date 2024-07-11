@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">My Orders</h2>
+  <% if (orders.length === 0) { %>
+  <div class="alert alert-info text-center">You have no orders.</div>
+  <% } else { %> <% orders.forEach(order => { %>
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header">
+      <h5 class="card-title">Order ID: <%= order.id_order %></h5>
+    </div>
+    <div class="card-body">
+      <div class="order-items">
+        <% order.items.forEach(item => { %>
+          <div class="order-items d-flex"><strong><%= item.nama_produk %></strong></div> 
+          <div><strong class="float-sm-right">x<%= item.kuantitas %></strong></div>
+          <div><strong class="float-sm-right"><%= item.harga %></strong></div>
+        <% }) %>
+      </div> <br>
+      <p><strong>Nama Penerima:</strong> <%= order.username %></p>
+      <p><strong>Tanggal Pesanan:</strong> <%= order.tanggal_pesanan %></p>
+      <p><strong>Alamat Pengiriman:</strong> <%= order.alamat_pengiriman %></p>
+      <p><strong>Metode Pembayaran:</strong> <%= order.metode_pembayaran %></p>
+      <p>Total Biaya: <strong class="float-sm-right"><%= order.total_biaya %></strong></p>
+    </div>
+  </div>
+  <% }) %> <% } %>
+</div>

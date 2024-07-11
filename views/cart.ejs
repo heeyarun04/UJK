@@ -1,13 +1,73 @@
-<h2>Shopping Cart</h2>
-<ul>
-  <% cartItems.forEach(item => { %>
-    <li>Product ID: <%= item.product_id %> - Quantity: <%= item.kuantitas %></li>
-  <% }) %>
-</ul>
-<form action="/cart/add" method="POST">
-  <label for="product_id">Product ID:</label>
-  <input type="text" id="product_id" name="product_id">
-  <label for="kuantitas">Quantity:</label>
-  <input type="text" id="kuantitas" name="kuantitas">
-  <button type="submit">Add to Cart</button>
-</form>
+<div class="container mt-5">
+  <h2 class="mb-4">Shopping Cart</h2>
+  <% if (cartItems.length > 0) { %>
+    <ul class="list-group">
+      <% cartItems.forEach(item => { %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Product:</strong> <%= item.nama_produk %>
+          </div>
+          <div class="quantity-control d-flex align-items-center">
+            <form action="/cart/reduce" method="POST" class="mr-2">
+              <input type="hidden" name="id_cart_item" value="<%= item.id_cart_item %>">
+              <button type="submit" class="btn btn-sm btn-outline-secondary">
+                <i class="fa fa-minus"></i>
+              </button>
+            </form>
+            <span class="mr-2">Quantity: <%= item.kuantitas %></span>
+            <form action="/cart/add" method="POST" class="mr-2">
+              <input type="hidden" name="product_id" value="<%= item.product_id %>">
+              <input type="hidden" name="kuantitas" value="1">
+              <button type="submit" class="btn btn-sm btn-outline-secondary">
+                <i class="fa fa-plus"></i>
+              </button>
+            </form>
+          </div>
+          <div>
+            <strong>Price:</strong> <%= (item.harga / item.kuantitas).toFixed(2) * item.kuantitas %>
+          </div>
+          <form action="/cart/remove" method="POST" class="ml-2">
+            <input type="hidden" name="id_cart_item" value="<%= item.id_cart_item %>">
+            <button type="submit" class="btn btn-sm btn-outline-danger">
+              <i class='fa fa-trash'></i>
+            </button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
+    <button type="button" class="btn btn-dark btn-block mt-3" data-toggle="modal" data-target="#checkoutModal">Checkout</button>
+  <% } else { %>
+    <p class="alert alert-warning">No items in cart</p>
+  <% } %>
+</div>
+
+<!-- Checkout Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="checkoutForm" action="/checkout/create" method="POST">
+          <div class="form-group">
+            <label for="alamat_pengiriman">Shipping Address</label>
+            <input type="text" class="form-control" id="alamat_pengiriman" name="alamat_pengiriman" required>
+          </div>
+          <div class="form-group">
+            <label for="metode_pembayaran">Payment Method</label>
+            <select class="form-control" id="metode_pembayaran" name="metode_pembayaran" required>
+              <option value="credit_card">Credit Card</option>
+              <option value="paypal">PayPal</option>
+              <option value="bank_transfer">Bank Transfer</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Confirm Order</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
